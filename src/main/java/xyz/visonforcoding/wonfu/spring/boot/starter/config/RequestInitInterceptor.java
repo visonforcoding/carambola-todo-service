@@ -24,12 +24,11 @@ public class RequestInitInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         App._uniq_req_no.set(UUID.randomUUID().toString());
-//        App.sqlCount.set(0);
-        reqExtProperty.sqlCount.set(0);
+        App.sqlCount.set(0);
+//        reqExtProperty.sqlCount.set(0);
         App.sqlDuration.set(0L);
         Log.setMsgTraceNo(App._uniq_req_no.get());
         MDC.put("REQ_NO", App._uniq_req_no.get());
-        Log.info("sqlCount", App.sqlCount.get());
         Log.info("request start... || ");
         return true;
     }
@@ -43,7 +42,7 @@ public class RequestInitInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
         Log.info("完成", App.sqlCount.get());
-        Log.info(String.format("finish request... || sql执行次数:%s sql总耗时:%s ms", reqExtProperty.sqlCount.get(), App.sqlDuration.get()));
+        Log.info(String.format("finish request... || sql执行次数:%s sql总耗时:%s ms", App.sqlDuration.get(), App.sqlDuration.get()));
         App.sqlCount.remove();
         App.sqlDuration.remove();
         App._uniq_req_no.remove();

@@ -16,6 +16,23 @@
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
     </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prd</id>
+            <properties>
+                <active.target.profile>prd</active.target.profile>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -63,11 +80,34 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>${project.artifactId}-${profileActive}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--1 先排除所有的profile文件 -->
+                <excludes>
+                    <exclude>application*.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--2 按需复制所有需的profile文件-->
+                <filtering>true</filtering>
+                <includes>					
+                    <include>application.properties</include>
+                    <include>application-${profileActive}.properties</include>
+                    <!--
+                    <include>application.yml</include>
+                    <include>application-${spring.profiles.active}.yml</include>
+                    -->
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>

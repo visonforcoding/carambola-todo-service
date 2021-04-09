@@ -24,6 +24,7 @@ import xyz.visonforcoding.carambola.service.AppService;
 import xyz.visonforcoding.wonfu.spring.boot.starter.Response;
 import xyz.visonforcoding.wonfu.spring.boot.starter.ResponseRet;
 import xyz.visonforcoding.wonfu.spring.boot.starter.config.Log;
+import xyz.visonforcoding.wonfu.spring.boot.starter.config.LoginRequired;
 
 /**
  *
@@ -31,6 +32,7 @@ import xyz.visonforcoding.wonfu.spring.boot.starter.config.Log;
  */
 @RestController
 @RequestMapping("/task")
+@LoginRequired
 public class TaskController {
 
     @Autowired

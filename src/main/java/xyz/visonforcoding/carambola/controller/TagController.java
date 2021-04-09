@@ -18,6 +18,7 @@ import xyz.visonforcoding.carambola.repository.TagRepository;
 import xyz.visonforcoding.carambola.service.AppService;
 import xyz.visonforcoding.wonfu.spring.boot.starter.Response;
 import xyz.visonforcoding.wonfu.spring.boot.starter.ResponseRet;
+import xyz.visonforcoding.wonfu.spring.boot.starter.config.LoginRequired;
 
 /**
  *
@@ -25,6 +26,7 @@ import xyz.visonforcoding.wonfu.spring.boot.starter.ResponseRet;
  */
 @RestController
 @RequestMapping("/tag")
+@LoginRequired
 public class TagController {
 
     @Autowired

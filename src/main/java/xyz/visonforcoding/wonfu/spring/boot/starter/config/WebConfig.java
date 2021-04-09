@@ -1,5 +1,6 @@
 package xyz.visonforcoding.wonfu.spring.boot.starter.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +16,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Bean
+    public SecurityInterceptor securityInterceptor() {
+        return new SecurityInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new RequestInitInterceptor());
+        registry.addInterceptor(securityInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**");
     }
 
     @Bean(name = "ReqExtProperty")

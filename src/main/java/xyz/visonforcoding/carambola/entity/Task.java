@@ -1,9 +1,6 @@
 package xyz.visonforcoding.carambola.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -15,12 +12,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Table;
 
 /**
  *
  * @author vison.cao <visonforcoding@gmail.com>
  */
 @Entity
+@Table(appliesTo = "task", comment = "任务")
 public class Task extends BaseEntity {
 
     @NotNull(message = "任务名称不可为空")
@@ -30,6 +30,9 @@ public class Task extends BaseEntity {
     @NotNull(message = "任务描述不可为空")
     @Column(nullable = false)
     private String detail;
+
+    @Column(name = "`rank`", columnDefinition = "INT(10) default 1  NOT NULL COMMENT '排序'")
+    private Integer rank = 1;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT), nullable = false)
@@ -88,6 +91,14 @@ public class Task extends BaseEntity {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 
     @Override

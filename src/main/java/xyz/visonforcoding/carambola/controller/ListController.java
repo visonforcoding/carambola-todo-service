@@ -12,6 +12,7 @@ import xyz.visonforcoding.carambola.entity.User;
 import xyz.visonforcoding.carambola.repository.TaskListRepository;
 import xyz.visonforcoding.carambola.service.AppService;
 import xyz.visonforcoding.wonfu.spring.boot.starter.Response;
+import xyz.visonforcoding.wonfu.spring.boot.starter.config.LoginRequired;
 
 /**
  *
@@ -19,14 +20,15 @@ import xyz.visonforcoding.wonfu.spring.boot.starter.Response;
  */
 @RestController
 @RequestMapping("/list")
+@LoginRequired
 public class ListController {
-    
+
     @Autowired
     private TaskListRepository taskListRepository;
-    
+
     @Autowired
     private AppService appService;
-    
+
     @PostMapping(path = "/add")
     public Response add(@RequestBody TaskList list) {
         User user = appService.getCurrentUser();
@@ -34,12 +36,12 @@ public class ListController {
         taskListRepository.save(list);
         return new Response(0, "插入成功", list);
     }
-    
+
     @GetMapping(path = "/my")
     public Response list() {
         User user = appService.getCurrentUser();
         Iterable<TaskList> taskLists = taskListRepository.findAllByUser(user);
         return new Response(0, "获取成功", taskLists);
     }
-    
+
 }

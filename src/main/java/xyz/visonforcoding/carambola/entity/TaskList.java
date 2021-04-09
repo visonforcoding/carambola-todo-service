@@ -9,6 +9,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 /**
  *
@@ -26,6 +27,7 @@ public class TaskList extends BaseEntity {
     @OneToMany
     @JoinColumn(name = "list_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @JsonIgnoreProperties(value = {"list", "user"})
+    @OrderBy("rank asc")
     private List<Task> tasks;
 
     public User getUser() {

@@ -1,5 +1,6 @@
 package xyz.visonforcoding.wonfu.spring.boot.starter.config;
 
+import com.p6spy.engine.common.ConnectionInformation;
 import com.p6spy.engine.common.PreparedStatementInformation;
 import com.p6spy.engine.common.StatementInformation;
 
@@ -14,9 +15,13 @@ import java.sql.SQLException;
 public class P6spyListener extends JdbcEventListener {
 
     @Override
+    public void onAfterGetConnection(ConnectionInformation connectionInformation, SQLException e) {
+
+    }
+
+    @Override
     public void onAfterExecuteQuery(PreparedStatementInformation statementInformation, long timeElapsedNanos, SQLException e) {
         App.sqlCount.set(App.sqlCount.get() + 1);
-        Log.info("查询次数", App.sqlCount.get().toString());
         Long duration = timeElapsedNanos / 1000000;
         App.sqlDuration.set(App.sqlDuration.get() + duration);
         Log.info(String.format("执行sql || %s 耗时 %s ms", statementInformation.getSqlWithValues(), duration));

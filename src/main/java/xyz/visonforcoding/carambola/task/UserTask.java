@@ -1,5 +1,6 @@
 package xyz.visonforcoding.carambola.task;
 
+import java.util.UUID;
 import xyz.visonforcoding.wonfu.spring.boot.starter.config.App;
 import xyz.visonforcoding.wonfu.spring.boot.starter.config.Log;
 import xyz.visonforcoding.carambola.entity.User;
@@ -15,17 +16,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserTask implements CommandLineRunner {
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    
     @Autowired
     private UserService userService;
-
+    
     @Override
     public void run(String... strings) throws Exception {
         Log.debug("task启动...");
-
+        
         System.out.print(App.sqlCount.get());
         User root = userRepository.findByUsername("root");
         if (root == null) {
@@ -33,8 +34,9 @@ public class UserTask implements CommandLineRunner {
             root = new User();
             root.setUsername("root");
             root.setEmail("root@123.com");
+            root.setToken(UUID.randomUUID().toString());
             userService.createUser(root, "asdqwe123");
         }
     }
-
+    
 }
